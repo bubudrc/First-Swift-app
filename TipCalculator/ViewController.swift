@@ -31,6 +31,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        refreshUI()
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,10 +41,25 @@ class ViewController: UIViewController {
     }
     
     @IBAction func calculateTapped(sender : AnyObject) {
+        // 1
+        tipCalc.total = Double((totalTextField.text as NSString).doubleValue)
+        // 2
+        let possibleTips = tipCalc.returnPossibleTips()
+        var results = ""
+        // 3
+        for (tipPct, tipValue) in possibleTips {
+            // 4
+            results += "\(tipPct)%: \(tipValue)\n"
+        }
+        // 5
+        resultsTextView.text = results
     }
     @IBAction func taxPercentageChanged(sender : AnyObject) {
+        tipCalc.taxPct = Double(taxPctSlider.value) / 100.0
+        refreshUI()
     }
     @IBAction func viewTapped(sender : AnyObject) {
+        totalTextField.resignFirstResponder()
     }
 
 
