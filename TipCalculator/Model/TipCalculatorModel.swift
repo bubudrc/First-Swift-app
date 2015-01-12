@@ -12,7 +12,7 @@ class TipCalculatorModel: NSObject {
     var total: Double //Total despues de impuestos
     var taxPct: Double //Porcentaje de impuesto sobre el subtotal
     var subtotal: Double //Subtotal de la cuenta
-    {
+        {
         get {
             return total / (taxPct + 1)
         }
@@ -24,17 +24,20 @@ class TipCalculatorModel: NSObject {
         self.taxPct = taxPct
     }
     
-    func calcTipWithTipPct(tipPct:Double) -> Double {
-        return subtotal * tipPct
+    func calcTipWithTipPct(tipPct:Double) -> (tipAmt:Double, total:Double) {
+        let tipAmt = subtotal * tipPct
+        let finalTotal = total + tipAmt
+        return (tipAmt, finalTotal)
     }
     
     
-    func returnPossibleTips() -> [Int: Double] {
+    
+    func returnPossibleTips() -> [Int: (tipAmt:Double, total:Double) ] {
         
         let possibleTipsInferred = [0.15, 0.18, 0.20]
         
         // 2
-        var retval = Dictionary<Int, Double>()
+        var retval = Dictionary<Int, (tipAmt:Double, total:Double) >()
         for possibleTip in possibleTipsInferred {
             let intPct = Int(possibleTip*100)
             
@@ -45,6 +48,4 @@ class TipCalculatorModel: NSObject {
         return retval
         
     }
-
-   
 }
